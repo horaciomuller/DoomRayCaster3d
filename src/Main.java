@@ -1,15 +1,10 @@
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class Main {
-    /**
-     * Método principal para executar a aplicação.
-     *
-     * @param args Argumentos da linha de comando.
-     */
     public static void main(String[] args) {
-        JFrame frame = new JFrame("RayCaster with Minimap and Vision Arrows");
-        Minimap minimap = new Minimap();
-        frame.add(minimap);
+        JFrame frame = new JFrame("RayCaster with Minimap");
+        RayCaster rayCaster = new RayCaster();
+        frame.add(rayCaster);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
