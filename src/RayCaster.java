@@ -24,6 +24,9 @@ public class RayCaster extends JPanel implements KeyListener {
     private final double moveSpeed = 0.1, rotationSpeed = 0.05;
     private final int minimapScale = 20;
 
+    // Posição do totem
+    private double totemX = 5.5, totemY = 5.5;
+
     public RayCaster() {
         setPreferredSize(new Dimension(800, 600));
         addKeyListener(this);
@@ -70,9 +73,35 @@ public class RayCaster extends JPanel implements KeyListener {
             g2d.drawLine(x, (getHeight() - lineHeight) / 2, x, (getHeight() + lineHeight) / 2);
         }
 
+
+        // Desenhar o totem
+        drawTotem(g2d);
+
         // Desenhar o minimap
         drawMinimap(g2d);
     }
+
+    // Método para desenhar o totem
+    private void drawTotem(Graphics2D g) {
+        // Calcular a distância entre o jogador e o totem
+        double deltaX = totemX - playerX;
+        double deltaY = totemY - playerY;
+        double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+        // Calcular o ângulo entre o jogador e o totem
+        double angleToTotem = Math.atan2(deltaY, deltaX) - playerAngle;
+
+        // Verificar se o totem está dentro do campo de visão
+        if (Math.abs(angleToTotem) < Math.PI / 6) {
+            double totemHeight = getHeight() / distance; // Altura do totem com base na distância
+            int totemScreenX = (int) ((0.5 + angleToTotem / (Math.PI / 3)) * getWidth());
+
+            // Desenhar o totem
+            g.setColor(Color.ORANGE);
+            g.fillRect(totemScreenX - 10, (int) (getHeight() / 2 - totemHeight / 2), 20, (int) totemHeight);
+        }
+    }
+
 
     private void drawMinimap(Graphics2D g) {
         for (int y = 0; y < mapHeight; y++) {
@@ -87,6 +116,10 @@ public class RayCaster extends JPanel implements KeyListener {
         // Desenhar o jogador no minimap
         g.setColor(Color.RED);
         g.fillOval((int)(playerX * minimapScale) - 3, (int)(playerY * minimapScale) - 3, 6, 6);
+
+        // Desenhar o totem no minimap
+        g.setColor(Color.ORANGE);
+        g.fillRect((int)(totemX * minimapScale) - 5, (int)(totemY * minimapScale) - 5, 10, 10);
 
         // Desenhar o raio no minimap
         g.setColor(Color.YELLOW);
