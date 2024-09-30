@@ -28,6 +28,10 @@ public class Minimap extends JPanel implements KeyListener {
     private final double moveSpeed = 0.1; // Velocidade de movimento
     private final int minimapScale = 30; // Aumente este valor para aumentar o tamanho do minimap
 
+    /**
+     * Construtor da classe Minimap.
+     * Define o tamanho do painel e registra o KeyListener.
+     */
     public Minimap() {
         setPreferredSize(new Dimension(600, 600)); // Tamanho da janela
         addKeyListener(this);
@@ -43,7 +47,11 @@ public class Minimap extends JPanel implements KeyListener {
         drawMinimap(g2d);
     }
 
-    // Função para desenhar o minimap
+    /**
+     * Desenha o minimap baseado na posição do jogador e no mapa.
+     *
+     * @param g Objeto Graphics2D para renderização.
+     */
     private void drawMinimap(Graphics2D g) {
         for (int y = 0; y < mapHeight; y++) {
             for (int x = 0; x < mapWidth; x++) {
@@ -84,7 +92,12 @@ public class Minimap extends JPanel implements KeyListener {
         }
     }
 
-    // Controle do jogador
+    /**
+     * Movimenta o jogador no minimap, verificando colisões.
+     *
+     * @param deltaX Deslocamento em X.
+     * @param deltaY Deslocamento em Y.
+     */
     private void movePlayer(double deltaX, double deltaY) {
         int testX = (int) (playerX + deltaX);
         int testY = (int) (playerY + deltaY);
