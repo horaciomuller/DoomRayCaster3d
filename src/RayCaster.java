@@ -21,7 +21,7 @@ public class RayCaster extends JPanel implements KeyListener {
 
     private double playerX = 2, playerY = 2;
     private double playerAngle = 0;
-    private final double moveSpeed = 0.1, rotationSpeed = 0.05;
+    private final double moveSpeed = 0.3, rotationSpeed = 0.05;
     private final int minimapScale = 20;
 
     // Posição do totem
