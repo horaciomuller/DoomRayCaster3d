@@ -1,9 +1,14 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class RayCaster extends JPanel implements KeyListener {
+    private BufferedImage wallTexture;
     private final int mapWidth = 10, mapHeight = 10;
 
     private final int[][] map = {
@@ -31,6 +36,12 @@ public class RayCaster extends JPanel implements KeyListener {
         setPreferredSize(new Dimension(800, 600));
         addKeyListener(this);
         setFocusable(true);
+
+        try {
+            wallTexture = ImageIO.read(getClass().getResourceAsStream("/wallTexture.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -68,11 +79,12 @@ public class RayCaster extends JPanel implements KeyListener {
 
             // Calcular altura da parede
             int lineHeight = (int) (getHeight() / distanceToWall);
-            int color = 255 / (1 + (int) distanceToWall);
-            g2d.setColor(new Color(color, color, color));
-            g2d.drawLine(x, (getHeight() - lineHeight) / 2, x, (getHeight() + lineHeight) / 2);
-        }
 
+            // Desenhar a textura da parede
+            if (hitWall) {
+                g2d.drawImage(wallTexture, x, (getHeight() - lineHeight) / 2, 1, lineHeight, null);
+            }
+        }
 
         // Desenhar o totem
         drawTotem(g2d);
@@ -80,6 +92,7 @@ public class RayCaster extends JPanel implements KeyListener {
         // Desenhar o minimap
         drawMinimap(g2d);
     }
+
 
     // Método para desenhar o totem
     private void drawTotem(Graphics2D g) {
@@ -167,6 +180,7 @@ public class RayCaster extends JPanel implements KeyListener {
         double newPlayerX = playerX;
         double newPlayerY = playerY;
 
+        // Movimentação do jogador
         if (e.getKeyCode() == KeyEvent.VK_UP) {
             newPlayerX += Math.cos(playerAngle) * moveSpeed;
             newPlayerY += Math.sin(playerAngle) * moveSpeed;
@@ -188,8 +202,9 @@ public class RayCaster extends JPanel implements KeyListener {
             playerY = newPlayerY;
         }
 
-        repaint();
+        repaint(); // Atualiza a tela após as mudanças
     }
+
 
 
     @Override
