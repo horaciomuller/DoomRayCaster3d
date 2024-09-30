@@ -25,15 +25,15 @@ public class Minimap extends JPanel implements KeyListener {
     // Posição do jogador
     private double playerX = 2, playerY = 2;
     private double playerAngle = 0;  // Ângulo de visão do jogador
-    private final double moveSpeed = 0.1; // Velocidade de movimento
-    private final int minimapScale = 30; // Aumente este valor para aumentar o tamanho do minimap
+    private final double moveSpeed = 0.4; // Velocidade de movimento // Entre 0.1 e 0.4 parece natural
+    private final int minimapScale = 60;
 
     /**
      * Construtor da classe Minimap.
      * Define o tamanho do painel e registra o KeyListener.
      */
     public Minimap() {
-        setPreferredSize(new Dimension(600, 600)); // Tamanho da janela
+        setPreferredSize(new Dimension(600, 600));
         addKeyListener(this);
         setFocusable(true);
     }

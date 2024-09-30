@@ -119,15 +119,28 @@ public class RayCaster extends JPanel implements KeyListener {
         }
     }
 
+
+    private boolean isWall(double x, double y) {
+        // Verifica os limites do mapa
+        if (x < 0 || x >= mapWidth || y < 0 || y >= mapHeight) {
+            return true; // Fora dos limites do mapa é considerado uma parede
+        }
+        // Retorna true se a posição contém uma parede
+        return map[(int) y][(int) x] == 1;
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
+        double newPlayerX = playerX;
+        double newPlayerY = playerY;
+
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-            playerX += Math.cos(playerAngle) * moveSpeed;
-            playerY += Math.sin(playerAngle) * moveSpeed;
+            newPlayerX += Math.cos(playerAngle) * moveSpeed;
+            newPlayerY += Math.sin(playerAngle) * moveSpeed;
         }
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            playerX -= Math.cos(playerAngle) * moveSpeed;
-            playerY -= Math.sin(playerAngle) * moveSpeed;
+            newPlayerX -= Math.cos(playerAngle) * moveSpeed;
+            newPlayerY -= Math.sin(playerAngle) * moveSpeed;
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             playerAngle -= rotationSpeed;
@@ -135,8 +148,16 @@ public class RayCaster extends JPanel implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             playerAngle += rotationSpeed;
         }
+
+        // Verifica se o novo local é uma parede
+        if (!isWall(newPlayerX, newPlayerY)) {
+            playerX = newPlayerX;
+            playerY = newPlayerY;
+        }
+
         repaint();
     }
+
 
     @Override
     public void keyReleased(KeyEvent e) {}
